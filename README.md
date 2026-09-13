@@ -1,6 +1,6 @@
 # KnowForge RAG Platform
 
-这是一个基于 `LangChain + Milvus Hybrid Search + FastAPI` 的多场景 RAG 系统项目。项目目标不是做一个简单聊天页面，而是把企业级 RAG 的主链路、知识库治理、RAG 回归验收、版本管理、数据隔离和流式问答做成可以演示、可以验收、可以写进简历的完整工程。
+这是一个基于 `LangChain + Milvus Hybrid Search + FastAPI` 的多场景 RAG 系统项目。项目目标不是做一个简单聊天页面，而是把企业级 RAG 的主链路、知识库治理、RAG 回归验收、版本管理、数据隔离和流式问答做成可以演示、可以验收的完整工程。
 
 工程名统一为 `knowforge-rag-platform`，产品展示名为 **KnowForge RAG Platform**，中文定位是 **企业级多场景 RAG 知识平台**。
 

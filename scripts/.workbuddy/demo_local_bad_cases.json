@@ -1,0 +1,24 @@
+[
+  {
+    "case_id": "bad_case_vpn_001",
+    "source_case_id": "case_vpn_001",
+    "query": "VPN 客户端版本、账号锁定、公网 IP 这些排查项分别应该怎么处理？",
+    "scenario_id": "enterprise_knowledge",
+    "source_filter": "it",
+    "expected_hit_type": "rag",
+    "expected_effective_source": "it",
+    "expected_prompt_profile": "troubleshooting_steps",
+    "expected_source_contains": [
+      "it_support.md",
+      "VPN 连接排查"
+    ],
+    "expected_keywords": [
+      "客户端版本",
+      "账号锁定",
+      "公网 IP",
+      "IT 工单",
+      "截图"
+    ],
+    "grading_notes": "答案必须分别说明三个排查项，不能只给泛泛重启建议。"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "case_id": "case_vpn_001",
+    "query": "旧版本样本（待替换）",
+    "scenario_id": "enterprise_knowledge",
+    "expected_keywords": [
+      "旧"
+    ]
+  },
+  {
+    "case_id": "case_keep",
+    "query": "保留样本",
+    "scenario_id": "enterprise_knowledge",
+    "expected_keywords": [
+      "保留"
+    ]
+  }
+]

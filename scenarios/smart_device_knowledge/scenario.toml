@@ -1,0 +1,32 @@
+scenario_id = "smart_device_knowledge"
+display_name = "智能健康设备产品与技术知识平台"
+industry = "智能健康设备 ODM/OEM 与配套 App"
+description = "面向产品、研发、测试、客服、销售和新员工的企业内部知识检索场景，覆盖产品知识、技术知识、客服支持知识、测试与缺陷知识。"
+assistant_name = "智能健康设备知识助手"
+business_domain = "智能健康设备产品研发与服务支持"
+support_contact = "knowledge-admin@example.local"
+valid_sources = ["product", "development", "support", "quality"]
+faq_collection = "smart_device_faq_hybrid_v1"
+doc_collection = "smart_device_doc_hybrid_v1"
+data_root = "scenarios/smart_device_knowledge/data"
+faq_csv_path = "scenarios/smart_device_knowledge/faq.csv"
+resume_project_name = "智能健康设备产品与技术知识平台"
+resume_keywords = ["智能健康设备", "企业 RAG", "混合检索", "领域 metadata", "多格式入库"]
+sample_questions = [
+  "演示手表的产品功能有哪些？",
+  "同步协议出现 E103 应该怎么排查？",
+  "客服遇到用户绑定失败时如何处理？",
+  "测试发现 App 同步失败时有没有历史缺陷？",
+]
+
+[source_labels]
+product = "产品知识"
+development = "技术知识"
+support = "客服支持知识"
+quality = "测试与缺陷知识"
+
+[source_patterns]
+product = "产品|功能|规格|产品线|续航|防水|说明书|型号差异|产品介绍|参数"
+development = "协议|接口|SDK|API|蓝牙协议|固件升级|兼容矩阵|特征值|UUID|同步"
+support = "绑定|账号|同步失败|操作指引|客服|售后|配对|重新连接|使用步骤|咨询"
+quality = "缺陷|复现|回归|测试用例|历史问题|已知问题|错误码|E[0-9]{2,6}|bug|Bug"

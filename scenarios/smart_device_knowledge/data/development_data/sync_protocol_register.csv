@@ -1,0 +1,4 @@
+﻿error_code,interface,meaning,handling
+E103,openSyncSession/readRecords,同步会话已过期,重新创建同步会话后再读取
+E210,firmwareUpgrade,固件包版本低于设备版本,阻止升级并提示版本不匹配
+E305,bindDevice,设备已绑定其他账号,返回绑定冲突并引导解除旧账号绑定

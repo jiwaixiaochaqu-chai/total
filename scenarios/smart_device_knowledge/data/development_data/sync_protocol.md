@@ -9,20 +9,16 @@ error_codes = ["E103"]
 document_type = "protocol"
 effective_status = "active"
 +++
+# 智能健康设备技术知识
 
-# 演示同步协议说明
+## 同步会话
 
-> 本资料为虚构脱敏样例，仅用于 RAG 场景演示。
+App 调用 openSyncSession 创建设备同步会话，服务端返回 session_id。session_id 有效期为 60 秒，超过有效期继续读取会返回 E103。
 
-技术知识主要给研发和测试使用，用于查询底层协议、接口字段、版本兼容和错误码含义。
+## 数据读取
 
-## 会话流程
+readRecords 接口按分页返回步数、睡眠摘要和设备电量。客户端请求必须携带 product_model、firmware_version、app_version 和 mobile_os。
 
-1. App 调用 `openSyncSession(device_id)` 创建同步会话。
-2. 设备返回 `session_id`，有效期为 60 秒。
-3. App 调用 `readRecords(session_id)` 读取步数和睡眠摘要。
-4. 如果超过有效期继续读取，接口返回错误码 E103。
+## 异常处理
 
-## 字段要求
-
-每次排查同步问题时必须记录产品型号、硬件版本、固件版本、App 版本和移动端系统。
+E103 表示同步会话过期，客户端应重新创建 session 后再读取。连续三次出现 E103 时，需要同时保留蓝牙状态和设备端日志。

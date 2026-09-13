@@ -1,0 +1,4 @@
+﻿case_id,product_model,firmware_version,app_version,mobile_os,error_code,condition,status
+Q-SYNC-103,SW-H8,1.3.6,2.8.1,Android 14,E103,等待 session 超时后继续读取,待回归
+Q-BIND-305,SW-H8,1.3.6,2.8.1,iOS 17.4,E305,旧账号未解绑后新账号绑定,已关闭
+Q-UPG-210,SW-H8,1.3.5,2.7.9,Android 13,E210,低版本固件包覆盖升级,已关闭

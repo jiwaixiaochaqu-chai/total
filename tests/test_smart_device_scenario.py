@@ -1,12 +1,23 @@
 from __future__ import annotations
 
 import csv
+import re
 import unittest
 from pathlib import Path
 
 from qa_core.indexing.document_loaders import load_file
-from qa_core.scenarios.registry import get_scenario_registry
 from qa_core.intent.classifier import infer_source
+from qa_core.scenarios.registry import get_scenario_registry
+
+
+BANNED_SAMPLE_WORDS = re.compile(r"虚构|脱敏|演示|仅用于\s*RAG\s*场景演示|Fictional|desensitized|demo", re.IGNORECASE)
+REQUIRED_FORMATS = {".md", ".csv", ".xlsx", ".docx", ".pptx", ".pdf"}
+SOURCE_DIRS = {
+    "product_data": "product",
+    "development_data": "development",
+    "support_data": "support",
+    "quality_data": "quality",
+}
 
 
 class SmartDeviceScenarioTests(unittest.TestCase):
@@ -53,31 +64,41 @@ class SmartDeviceScenarioTests(unittest.TestCase):
             with self.subTest(query=query):
                 self.assertEqual(infer_source(query, self.scenario), expected)
 
-    def test_faq_uses_four_sources_and_desensitized_content(self) -> None:
+    def test_faq_uses_four_sources_and_business_style_content(self) -> None:
         faq_path = Path(self.scenario.faq_csv_path)
         with faq_path.open("r", encoding="utf-8-sig", newline="") as handle:
             rows = list(csv.DictReader(handle))
         self.assertEqual({row["source"] for row in rows}, set(self.scenario.valid_sources))
-        self.assertTrue(rows)
-        self.assertTrue(all("虚构" in row["answer"] or "脱敏" in row["answer"] for row in rows))
+        self.assertGreaterEqual(len(rows), 8)
+        for row in rows:
+            with self.subTest(question=row["question"]):
+                self.assertNotRegex(row["question"], BANNED_SAMPLE_WORDS)
+                self.assertNotRegex(row["answer"], BANNED_SAMPLE_WORDS)
+                self.assertGreaterEqual(len(row["answer"]), 30)
 
-    def test_sample_documents_cover_original_supported_formats(self) -> None:
-        files = [path for path in self.root.rglob("*") if path.is_file()]
-        suffixes = {path.suffix.lower() for path in files}
-        self.assertTrue({".md", ".csv", ".xlsx", ".docx", ".pptx", ".pdf"}.issubset(suffixes))
-        source_dirs = {path.parent.name for path in files}
-        self.assertTrue({"product_data", "development_data", "support_data", "quality_data"}.issubset(source_dirs))
+    def test_each_source_directory_contains_all_supported_sample_formats(self) -> None:
+        for dirname in SOURCE_DIRS:
+            with self.subTest(dirname=dirname):
+                files = [path for path in (self.root / dirname).iterdir() if path.is_file()]
+                suffixes = {path.suffix.lower() for path in files}
+                self.assertTrue(REQUIRED_FORMATS.issubset(suffixes), suffixes)
+                self.assertGreaterEqual(len(files), len(REQUIRED_FORMATS))
 
-    def test_all_sample_formats_are_readable_by_existing_loader(self) -> None:
+    def test_all_documents_use_business_style_content_and_are_readable(self) -> None:
         for path in sorted(self.root.rglob("*")):
             if not path.is_file():
                 continue
-            with self.subTest(path=path.name):
+            with self.subTest(path=path.relative_to(self.root)):
                 docs = load_file(path)
                 self.assertGreater(len(docs), 0)
                 text = "\n".join(doc.page_content for doc in docs)
                 self.assertTrue(text.strip())
-                self.assertRegex(text, r"虚构|脱敏|Fictional|desensitized")
+                self.assertNotRegex(text, BANNED_SAMPLE_WORDS)
+                non_empty_units = [line for line in re.split(r"\n+", text) if line.strip()]
+                if path.suffix.lower() in {".csv", ".xlsx"}:
+                    self.assertGreaterEqual(len(non_empty_units), 3)
+                else:
+                    self.assertGreaterEqual(len(non_empty_units), 3)
 
 
 if __name__ == "__main__":

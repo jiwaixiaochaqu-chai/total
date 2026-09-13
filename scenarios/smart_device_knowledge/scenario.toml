@@ -13,7 +13,7 @@ faq_csv_path = "scenarios/smart_device_knowledge/faq.csv"
 resume_project_name = "智能健康设备产品与技术知识平台"
 resume_keywords = ["智能健康设备", "企业 RAG", "混合检索", "领域 metadata", "多格式入库"]
 sample_questions = [
-  "演示手表的产品功能有哪些？",
+  "SW-H8 手表的产品功能有哪些？",
   "同步协议出现 E103 应该怎么排查？",
   "客服遇到用户绑定失败时如何处理？",
   "测试发现 App 同步失败时有没有历史缺陷？",
